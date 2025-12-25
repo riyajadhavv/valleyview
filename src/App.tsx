@@ -43,17 +43,7 @@ const App = () => (
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/contact" element={<Contact />} />
 
-          {/* --- Admin routes --- */}
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedAdminRoute>
-                <AdminDashboard />
-              </ProtectedAdminRoute>
-            }
-          />
-
+         
           {/* --- Catch-all (keep last) --- */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,2 +1,4 @@
-// 🚫 Supabase disabled for production
-export const supabase = null as any;
+// ✅ Supabase fully disabled
+// This file intentionally exports NOTHING
+
+export {};
