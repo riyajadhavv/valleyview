@@ -2,120 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* ------------------------------------------------------
+   Global Design System
+------------------------------------------------------ */
 @layer base {
   :root {
     --background: 40 20% 97%;
     --foreground: 220 15% 20%;
-
     --card: 0 0% 100%;
     --card-foreground: 220 15% 20%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 20%;
-
     --primary: 43 74% 49%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 40 25% 90%;
     --secondary-foreground: 220 15% 20%;
-
     --muted: 40 20% 94%;
     --muted-foreground: 220 10% 45%;
-
     --accent: 43 74% 49%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 40 15% 88%;
     --input: 40 15% 88%;
     --ring: 43 74% 49%;
-
     --radius: 1rem;
-    
+
+    /* Luxury Palette */
     --luxury-gold: 43 74% 49%;
     --luxury-cream: 40 30% 95%;
     --luxury-charcoal: 220 15% 20%;
     --luxury-beige: 40 25% 85%;
-    
+
+    /* Gradients & Shadows */
     --gradient-primary: linear-gradient(135deg, hsl(43 74% 49% / 0.1), hsl(40 30% 95%));
     --gradient-hero: linear-gradient(180deg, hsl(0 0% 100% / 0.9), hsl(40 30% 95% / 0.95));
     --gradient-overlay: linear-gradient(180deg, transparent, hsl(220 15% 20% / 0.7));
-    
+
     --shadow-luxury: 0 20px 60px -10px hsl(43 74% 49% / 0.15);
     --shadow-card: 0 10px 40px -10px hsl(220 15% 20% / 0.1);
     --shadow-glow: 0 0 40px hsl(43 74% 49% / 0.3);
-    
+
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
     --background: 220 20% 12%;
     --foreground: 40 20% 95%;
-
     --card: 220 18% 15%;
     --card-foreground: 40 20% 95%;
-
     --popover: 220 18% 15%;
     --popover-foreground: 40 20% 95%;
-
     --primary: 43 74% 49%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 220 15% 20%;
     --secondary-foreground: 40 20% 95%;
-
     --muted: 220 15% 18%;
     --muted-foreground: 40 10% 60%;
-
     --accent: 43 74% 49%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 220 15% 22%;
     --input: 220 15% 22%;
     --ring: 43 74% 49%;
-    
+
     --luxury-gold: 43 74% 49%;
     --luxury-cream: 220 15% 18%;
     --luxury-charcoal: 40 20% 95%;
     --luxury-beige: 220 15% 25%;
-    
+
     --gradient-primary: linear-gradient(135deg, hsl(43 74% 49% / 0.15), hsl(220 15% 18%));
     --gradient-hero: linear-gradient(180deg, hsl(220 20% 12% / 0.9), hsl(220 15% 18% / 0.95));
     --gradient-overlay: linear-gradient(180deg, transparent, hsl(220 15% 10% / 0.8));
-    
+
     --shadow-luxury: 0 20px 60px -10px hsl(43 74% 49% / 0.25);
     --shadow-card: 0 10px 40px -10px hsl(0 0% 0% / 0.3);
     --shadow-glow: 0 0 40px hsl(43 74% 49% / 0.4);
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -124,38 +90,37 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
   }
 }
 
+/* ------------------------------------------------------
+   Utilities & Animations
+------------------------------------------------------ */
 @layer utilities {
   .glass-effect {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   .luxury-gradient {
     background: var(--gradient-primary);
   }
-  
+
   .text-gradient {
     background: linear-gradient(135deg, hsl(var(--luxury-gold)), hsl(var(--luxury-beige)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .animate-fade-in-up {
     animation: fadeInUp 0.6s ease-out;
   }
-  
-  .animate-scale-in {
-    animation: scaleIn 0.4s ease-out;
-  }
-  
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -166,15 +131,65 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
-  
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+
+  @keyframes scroll-x {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-scroll-x {
+    display: flex;
+    width: max-content;
+    animation: scroll-x 25s linear infinite;
   }
 }
+
+/* ------------------------------------------------------
+   Section-Specific Styling
+------------------------------------------------------ */
+
+/* --- Welcome Section Overlap --- */
+.welcome-overlap img:first-child {
+  transform: translateX(-5%);
+}
+.welcome-overlap img:last-child {
+  transform: translateX(10%) rotate(4deg);
+  transition: transform 0.4s ease;
+}
+
+.welcome-overlap img:last-child:hover {
+  transform: translateX(10%) rotate(2deg) scale(1.02);
+}
+
+
+/* --- Marquee Edge Fades --- */
+.marquee-fade-left,
+.marquee-fade-right {
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+.marquee-fade-left {
+  left: 0;
+  background: linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%);
+}
+.marquee-fade-right {
+  right: 0;
+  background: linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%);
+}
+
+/* --- Our Luxury Rooms Section --- */
+.room-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.room-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px hsl(43 74% 49% / 0.25);
+}
+.rooms-grid img {
+  border-radius: 1rem;
+}
+

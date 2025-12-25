@@ -1,28 +1,57 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, User2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import logo from "@/assets/logo.png";
 
-const Navigation = () => {
+const Navigation = ({
+  user,
+  profile,
+  handleLogout,
+}: {
+  user?: any;
+  profile?: any;
+  handleLogout?: () => void;
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [localProfile, setLocalProfile] = useState(profile);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    setLocalProfile(profile);
+  }, [profile]);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // ✅ Feedback REMOVED
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Villas", path: "/villas" },
-    { name: "Feedback", path: "/feedback" },
+    { name: "Gallery", path: "/villas" },
     { name: "Contact", path: "/contact" },
   ];
+
+  const initials = localProfile?.full_name
+    ? localProfile.full_name
+        .split(" ")
+        .map((n: string) => n[0].toUpperCase())
+        .join("")
+        .slice(0, 2)
+    : user?.email
+    ? user.email.charAt(0).toUpperCase()
+    : "?";
 
   return (
     <nav
@@ -34,14 +63,18 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
+          {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <h1 className="text-2xl md:text-3xl font-serif font-bold text-gradient">
-              LuxeVilla
-            </h1>
+            <img
+              src={logo}
+              alt="Valley View Villa Wai"
+              className="h-24 w-auto select-none transition-transform hover:scale-105"
+              draggable={false}
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -49,18 +82,63 @@ const Navigation = () => {
                 className={`text-sm font-medium transition-colors hover:text-primary ${
                   location.pathname === link.path
                     ? "text-primary"
-                    : "text-foreground"
+                    : location.pathname === "/" || location.pathname === "/about"
+                    ? isScrolled
+                      ? "text-black"
+                      : "text-white"
+                    : "text-black"
                 }`}
               >
                 {link.name}
               </Link>
             ))}
-            <Button variant="default" className="rounded-full" asChild>
+
+            {/* Book Now */}
+            <Button asChild className="rounded-full">
               <Link to="/booking">Book Now</Link>
             </Button>
+
+            {/* ✅ Profile dropdown ONLY if logged in */}
+            {user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="cursor-pointer border border-gray-300 shadow-sm">
+                    <AvatarImage src={localProfile?.avatar_url || ""} />
+                    <AvatarFallback>
+                      {initials || <User2 className="w-5 h-5" />}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="w-52 mt-2" align="end">
+                  <div className="px-3 py-2 border-b text-sm">
+                    <p className="font-medium">
+                      {localProfile?.full_name || "Guest User"}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {user.email}
+                    </p>
+                  </div>
+
+                  <DropdownMenuItem asChild>
+                    <Link to="/booking">My Bookings</Link>
+                  </DropdownMenuItem>
+
+                  {user.email === "admin@valleyviewvilla.in" && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin">Admin Dashboard</Link>
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="w-4 h-4 mr-2" /> Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <button
             className="md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -69,7 +147,7 @@ const Navigation = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 animate-fade-in-up">
             <div className="flex flex-col space-y-4">
@@ -87,11 +165,25 @@ const Navigation = () => {
                   {link.name}
                 </Link>
               ))}
+
               <Button variant="default" className="rounded-full w-full" asChild>
                 <Link to="/booking" onClick={() => setIsMobileMenuOpen(false)}>
                   Book Now
                 </Link>
               </Button>
+
+              {user && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    handleLogout?.();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="rounded-full border-primary text-primary hover:bg-primary hover:text-white flex items-center gap-2"
+                >
+                  <LogOut size={16} /> Log Out
+                </Button>
+              )}
             </div>
           </div>
         )}

@@ -1,245 +1,104 @@
-import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import CircularNav from "@/components/CircularNav";
+import { ExternalLink, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { Calendar as CalendarIcon, Users, PartyPopper } from "lucide-react";
 
-const Booking = () => {
-  const [checkIn, setCheckIn] = useState<Date>();
-  const [checkOut, setCheckOut] = useState<Date>();
-  const [eventPlanner, setEventPlanner] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const BookingOptions = () => {
+  // ✅ WhatsApp booking redirect (same logic style as Contact page)
+  const openWhatsApp = () => {
+    const message = `
+Hi! 👋
+I would like to book *Valley View Villa, Wai* 🌿
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoggedIn(true);
-    toast.success("Login successful! You can now proceed with booking.");
-  };
+Please share availability and pricing details.
+Thank you!
+    `.trim();
 
-  const handleBooking = () => {
-    if (!checkIn || !checkOut) {
-      toast.error("Please select check-in and check-out dates");
-      return;
-    }
-    toast.success("Booking request submitted! We'll contact you shortly.");
+    const whatsappNumber = "919422255335"; // WhatsApp-enabled number
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
+      {/* ✅ NAVBAR */}
       <Navigation />
-      <CircularNav />
 
-      <section className="pt-32 pb-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-center mb-6 animate-fade-in-up">
-            Book Your Stay
+      {/* ✅ PAGE CONTENT */}
+      <main className="flex-1 pt-32 pb-20 px-4 bg-muted/30 flex items-center justify-center">
+        <div className="max-w-xl w-full bg-white rounded-2xl shadow-lg p-8 text-center space-y-6">
+          <h1 className="text-2xl font-bold">
+            Book Your Stay at Valley View Villa
           </h1>
-          <p className="text-xl text-muted-foreground text-center mb-12 animate-fade-in-up">
-            Select your dates and customize your luxury experience
+
+          <p className="text-sm text-muted-foreground">
+            Choose your preferred booking option below
           </p>
 
-          {!isLoggedIn ? (
-            <Card className="p-8 animate-fade-in-up">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl font-serif font-semibold mb-2">
-                  Please Sign In
-                </h2>
-                <p className="text-muted-foreground">
-                  You need to be logged in to make a booking
-                </p>
-              </div>
-
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="lg" className="w-full rounded-full">
-                    Sign In / Sign Up
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl font-serif text-center">
-                      Welcome to LuxeVilla
-                    </DialogTitle>
-                  </DialogHeader>
-                  <form onSubmit={handleLogin} className="space-y-4">
-                    <div>
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="your@email.com"
-                        required
-                        className="rounded-full"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="password">Password</Label>
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="••••••••"
-                        required
-                        className="rounded-full"
-                      />
-                    </div>
-                    <Button type="submit" className="w-full rounded-full">
-                      Sign In
-                    </Button>
-                    <p className="text-center text-sm text-muted-foreground">
-                      Don't have an account?{" "}
-                      <span className="text-primary cursor-pointer hover:underline">
-                        Sign up here
-                      </span>
-                    </p>
-                  </form>
-                </DialogContent>
-              </Dialog>
-            </Card>
-          ) : (
-            <div className="space-y-8">
-              <Card className="p-8 animate-fade-in-up">
-                <h2 className="text-2xl font-serif font-semibold mb-6 flex items-center">
-                  <CalendarIcon className="mr-2 text-primary" />
-                  Select Dates
-                </h2>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <Label className="mb-2 block">Check-In Date</Label>
-                    <Calendar
-                      mode="single"
-                      selected={checkIn}
-                      onSelect={setCheckIn}
-                      disabled={(date) => date < new Date()}
-                      className="rounded-xl border shadow-card pointer-events-auto"
-                    />
-                  </div>
-                  <div>
-                    <Label className="mb-2 block">Check-Out Date</Label>
-                    <Calendar
-                      mode="single"
-                      selected={checkOut}
-                      onSelect={setCheckOut}
-                      disabled={(date) =>
-                        date < (checkIn || new Date())
-                      }
-                      className="rounded-xl border shadow-card pointer-events-auto"
-                    />
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-8 animate-fade-in-up">
-                <h2 className="text-2xl font-serif font-semibold mb-6 flex items-center">
-                  <Users className="mr-2 text-primary" />
-                  Guest Details
-                </h2>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="guests">Number of Guests</Label>
-                    <Input
-                      id="guests"
-                      type="number"
-                      min="1"
-                      placeholder="2"
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="rooms">Bedrooms Needed</Label>
-                    <Input
-                      id="rooms"
-                      type="number"
-                      min="1"
-                      placeholder="1"
-                      className="rounded-full"
-                    />
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-8 animate-fade-in-up">
-                <h2 className="text-2xl font-serif font-semibold mb-6 flex items-center">
-                  <PartyPopper className="mr-2 text-primary" />
-                  Special Services
-                </h2>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="eventPlanner"
-                    checked={eventPlanner}
-                    onCheckedChange={(checked) =>
-                      setEventPlanner(checked as boolean)
-                    }
-                  />
-                  <Label
-                    htmlFor="eventPlanner"
-                    className="text-sm font-normal cursor-pointer"
-                  >
-                    I would like to collaborate with an event planner for
-                    decorations and gifting arrangements
-                  </Label>
-                </div>
-
-                {eventPlanner && (
-                  <div className="mt-6 p-4 bg-muted rounded-xl animate-fade-in">
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Our event planning team will contact you to discuss your
-                      requirements and create a memorable experience.
-                    </p>
-                    <Input
-                      placeholder="Special requests or preferences..."
-                      className="rounded-full"
-                    />
-                  </div>
-                )}
-              </Card>
-
-              <Card className="p-8 bg-luxury-gold/10 border-primary animate-fade-in-up">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <h3 className="text-xl font-serif font-semibold">
-                      Booking Summary
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {checkIn && checkOut
-                        ? `${checkIn.toLocaleDateString()} - ${checkOut.toLocaleDateString()}`
-                        : "Select dates to continue"}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-3xl font-serif font-bold text-primary">
-                      $1,200
-                    </p>
-                    <p className="text-sm text-muted-foreground">per night</p>
-                  </div>
-                </div>
-
-                <Button
-                  size="lg"
-                  className="w-full rounded-full"
-                  onClick={handleBooking}
-                >
-                  Confirm Booking
-                </Button>
-              </Card>
+          {/* WhatsApp Booking */}
+          <div className="border rounded-xl p-5 space-y-3">
+            <div className="flex items-center justify-center gap-2 text-lg font-semibold">
+              <MessageCircle className="text-green-600" size={20} />
+              Book via WhatsApp
             </div>
-          )}
-        </div>
-      </section>
 
+            <p className="text-sm text-muted-foreground">
+              +91 94222 55335
+            </p>
+
+            <Button
+              onClick={openWhatsApp}
+              className="rounded-full w-full bg-green-600 hover:bg-green-700"
+            >
+              Chat on WhatsApp
+            </Button>
+
+            <p className="text-xs text-muted-foreground">
+              Fastest response & best direct price
+            </p>
+          </div>
+
+          {/* Call Info */}
+          <div className="border rounded-xl p-4 text-sm text-muted-foreground">
+            <Phone className="inline mr-2" size={16} />
+            +91 94222 55335 / +91 98500 85595
+          </div>
+
+          {/* Airbnb */}
+          <a
+            href="https://www.airbnb.co.in/rooms/1104975167556012060?check_in=2025-12-31&check_out=2026-01-02&guests=6&adults=6&s=67&unique_share_id=12caa7f5-91c9-4d9b-9955-b27e72a50e68"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between border rounded-xl p-4 hover:bg-muted transition"
+          >
+            <span className="font-medium">Book via Airbnb</span>
+            <ExternalLink size={16} />
+          </a>
+
+          {/* Booking.com */}
+          <a
+            href="https://www.booking.com/Share-SFsztRl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between border rounded-xl p-4 hover:bg-muted transition"
+          >
+            <span className="font-medium">Book via Booking.com</span>
+            <ExternalLink size={16} />
+          </a>
+
+          <p className="text-xs text-muted-foreground pt-2">
+            Direct bookings get priority assistance.
+          </p>
+        </div>
+      </main>
+
+      {/* ✅ FOOTER */}
       <Footer />
     </div>
   );
 };
 
-export default Booking;
+export default BookingOptions;
