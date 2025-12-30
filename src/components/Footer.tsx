@@ -79,7 +79,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start text-sm text-luxury-beige">
                 <MapPin size={16} className="mr-2 mt-1 text-primary" />
-                Near Dhom Dam, Wai, Satara, Maharashtra
+                Gut No. 449, Near Mandhar Devi Temple,Veruli,Wai, Maharashtra 
               </li>
             </ul>
           </div>

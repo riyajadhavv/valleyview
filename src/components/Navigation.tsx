@@ -68,7 +68,7 @@ const Navigation = ({
             <img
               src={logo}
               alt="Valley View Villa Wai"
-              className="h-24 w-auto select-none transition-transform hover:scale-105"
+              className="h-28 w-auto select-none transition-transform hover:scale-105"
               draggable={false}
             />
           </Link>

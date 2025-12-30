@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import CircularNav from "../components/CircularNav";
 import { useState } from "react";
 
-// Local images using new URL (works reliably in Vite)
+// Images
 const living = new URL("../assets/living.jpg", import.meta.url).href;
 const dining = new URL("../assets/dining.jpg", import.meta.url).href;
 const bedroom1 = new URL("../assets/room1.jpg", import.meta.url).href;
@@ -14,6 +14,7 @@ const balcony = new URL("../assets/balcony.jpg", import.meta.url).href;
 const exterior = new URL("../assets/scenery.jpg", import.meta.url).href;
 const bathroom1 = new URL("../assets/bathroom1.jpg", import.meta.url).href;
 const bathroom2 = new URL("../assets/bathroom3.jpg", import.meta.url).href;
+const poolf = new URL("../assets/pool.jpg", import.meta.url).href;
 
 const Villas = () => {
   const villa = {
@@ -44,6 +45,12 @@ const Villas = () => {
     { name: "Exterior", desc: "Private villa surrounded by nature", img: exterior },
   ];
 
+  const pool = {
+    name: "Swimming Pool",
+    desc: "Private Infinity Swimming Pool",
+    img: poolf,
+  };
+
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
@@ -51,39 +58,36 @@ const Villas = () => {
       <Navigation />
       <CircularNav />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="pt-32 pb-16 px-4 luxury-gradient">
-        <div className="container mx-auto text-center background-[#D9A520]">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 animate-fade-in-up">
+        <div className="container mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             {villa.name}
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up ">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             {villa.description}
           </p>
         </div>
       </section>
 
-      {/* Villa Info Section */}
+      {/* Info */}
       <section className="py-12 px-4 bg-white">
         <div className="container mx-auto text-center mb-12">
           <div className="flex flex-wrap justify-center gap-8 text-lg">
-            <div className="px-8 py-3 bg-luxury-cream rounded-xl shadow-sm">🧑‍🤝‍🧑 {villa.guests} Guests</div>
-            <div className="px-8 py-3 bg-luxury-cream rounded-xl shadow-sm">🛏️ {villa.bedrooms} Bedrooms</div>
-            <div className="px-8 py-3 bg-luxury-cream rounded-xl shadow-sm">🛁 {villa.bathrooms} Bathrooms</div>
-            <div className="px-8 py-3 bg-luxury-cream rounded-xl shadow-sm">🛌 {villa.beds} Beds</div>
+            <div className="px-8 py-3 bg-luxury-cream rounded-xl">🧑‍🤝‍🧑 {villa.guests} Guests</div>
+            <div className="px-8 py-3 bg-luxury-cream rounded-xl">🛏️ {villa.bedrooms} Bedrooms</div>
+            <div className="px-8 py-3 bg-luxury-cream rounded-xl">🛁 {villa.bathrooms} Bathrooms</div>
+            <div className="px-8 py-3 bg-luxury-cream rounded-xl">🛌 {villa.beds} Beds</div>
           </div>
         </div>
 
-        {/* Room Cards */}
+        {/* Rooms */}
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {rooms.map((room, index) => (
-            <div
-              key={index}
-              className="rounded-2xl overflow-hidden bg-white shadow-card hover:shadow-luxury transition-all"
-            >
+          {rooms.map((room, i) => (
+            <div key={i} className="rounded-2xl overflow-hidden shadow-card">
               <img src={room.img} alt={room.name} className="w-full h-56 object-cover" />
-              <div className="p-5 text-left">
-                <h3 className="text-xl font-serif font-semibold mb-1">{room.name}</h3>
+              <div className="p-5">
+                <h3 className="text-xl font-serif font-semibold">{room.name}</h3>
                 <p className="text-muted-foreground text-sm">{room.desc}</p>
               </div>
             </div>
@@ -91,40 +95,59 @@ const Villas = () => {
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Gallery */}
       <section className="py-20 px-6 bg-luxury-cream/60">
         <div className="container mx-auto text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#D9A520]">Inside the Property</h2>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#D9A520]">
+            Inside the Property
+          </h2>
         </div>
 
-        {/* Masonry Grid */}
+        {/* Grid */}
         <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {gallery.map((item, i) => (
             <div
               key={i}
-              className="relative overflow-hidden rounded-xl cursor-pointer group h-56 md:h-64 lg:h-72"
+              className="relative group h-56 md:h-64 lg:h-72 rounded-xl overflow-hidden cursor-pointer"
               onClick={() => setSelected(item.img)}
             >
-              <img
-                src={item.img}
-                alt={item.name}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-2 text-white">
-                <h3 className="text-base md:text-lg font-semibold">{item.name}</h3>
-                <p className="text-xs md:text-sm">{item.desc}</p>
+              <img src={item.img} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-center p-2">
+                <div>
+                  <h3 className="font-semibold">{item.name}</h3>
+                  <p className="text-sm">{item.desc}</p>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
+        {/* SINGLE centered pool (hover-only text) */}
+        <div className="container mx-auto mt-10 flex justify-center">
+          <div
+            className="relative group w-full md:w-2/3 lg:w-1/2 h-72 rounded-2xl overflow-hidden cursor-pointer"
+            onClick={() => setSelected(pool.img)}
+          >
+            <img
+              src={pool.img}
+              className="w-full h-full object-cover transition-transform group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-center">
+              <div>
+                <h3 className="text-xl font-semibold">{pool.name}</h3>
+                <p className="text-sm">{pool.desc}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Lightbox */}
         {selected && (
           <div
-            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 cursor-pointer"
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
             onClick={() => setSelected(null)}
           >
-            <img src={selected} alt="Preview" className="max-h-[85vh] max-w-[90vw] rounded-2xl shadow-2xl" />
+            <img src={selected} className="max-h-[85vh] max-w-[90vw] rounded-2xl" />
           </div>
         )}
       </section>
