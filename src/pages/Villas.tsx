@@ -15,6 +15,16 @@ const exterior = new URL("../assets/scenery.jpg", import.meta.url).href;
 const bathroom1 = new URL("../assets/bathroom1.jpg", import.meta.url).href;
 const bathroom2 = new URL("../assets/bathroom3.jpg", import.meta.url).href;
 const poolf = new URL("../assets/pool.jpg", import.meta.url).href;
+const g1 = new URL("../assets/g1.jpeg", import.meta.url).href;
+const g2 = new URL("../assets/g2.jpeg", import.meta.url).href;
+const g3 = new URL("../assets/g3.jpeg", import.meta.url).href;
+const g4 = new URL("../assets/g4.jpeg", import.meta.url).href;
+const g5 = new URL("../assets/g5.jpeg", import.meta.url).href;
+const g6 = new URL("../assets/g6.jpeg", import.meta.url).href;
+const g7 = new URL("../assets/g7.jpeg", import.meta.url).href;
+const g8 = new URL("../assets/g8.jpeg", import.meta.url).href;
+const g9 = new URL("../assets/g9.jpeg", import.meta.url).href;
+const g10 = new URL("../assets/g10.jpeg", import.meta.url).href;
 
 const Villas = () => {
   const villa = {
@@ -28,10 +38,10 @@ const Villas = () => {
   };
 
   const rooms = [
-    { name: "Bedroom 1", desc: "Books, TV, Sound System", img: bedroom1 },
-    { name: "Bedroom 2", desc: "8-seater table, open layout", img: bedroom2 },
-    { name: "Bedroom 3", desc: "Queen + Single bed, balcony view", img: bedroom3 },
-    { name: "Bedroom 4", desc: "Queen bed, valley view", img: bedroom4 },
+    { name: "Bedroom 1", desc: "Queen bed,1 single bed, valley view,Attached Bathroom", img: bedroom1 },
+    { name: "Bedroom 2", desc: "Queen Bed, open layout", img: bedroom2 },
+    { name: "Bedroom 3", desc: "Queen bed, balcony view", img: bedroom3 },
+    { name: "Bedroom 4", desc: "Queen bed,1 single bed, valley view,Attached Bathroom", img: bedroom4 },
   ];
 
   const gallery = [
@@ -152,6 +162,42 @@ const Villas = () => {
         )}
       </section>
 
+{/* Photo Grid */}
+<section className="py-20 px-6 bg-white">
+  <div className="container mx-auto text-center mb-12">
+    <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#D9A520]">
+      More from the Property
+    </h2>
+    <p className="text-muted-foreground mt-3 text-lg">A closer look at every corner</p>
+  </div>
+
+  <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {[g1, g2, g3, g4, g5, g6, g7, g8].map((img, i) => (
+      <div
+        key={i}
+        className="relative group h-56 md:h-64 rounded-xl overflow-hidden cursor-pointer"
+        onClick={() => setSelected(img)}
+      >
+        <img src={img} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
+    ))}
+  </div>
+
+  {/* Last 2 centered wider */}
+  <div className="container mx-auto mt-4 grid grid-cols-2 gap-4">
+    {[g9, g10].map((img, i) => (
+      <div
+        key={i}
+        className="relative group h-64 rounded-xl overflow-hidden cursor-pointer"
+        onClick={() => setSelected(img)}
+      >
+        <img src={img} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
+    ))}
+  </div>
+</section>
       <Footer />
     </div>
   );
